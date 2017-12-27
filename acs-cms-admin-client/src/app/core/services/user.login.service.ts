@@ -50,7 +50,6 @@ export class UserLoginService{
         if(null!=router){
             router.navigate(['pro/user/login']);
         }
-       
     }
 
     constructor(
