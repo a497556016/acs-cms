@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>主页</title>
+</head>
+<body>
+    <p th:text="'Hello,'+${name}+'!'">hahaha</p>
+    <div th:if="${name != null}">mmmmmm22</div>
+    <div th:unless="${name != null}">aaaaaaaa</div>
+    <div th:include="footer :: footer"></div>
+    <div th:include="component/gridMenus :: gridMenus"></div>
+</body>
+</html>

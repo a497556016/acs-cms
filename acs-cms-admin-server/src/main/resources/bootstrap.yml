@@ -1,0 +1,23 @@
+#spring boot配置文件加载顺序 bootstrap --》 远程配置中心config server --》 application
+#所以有些配置必须放这里首先加载
+
+eureka:
+  instance:
+    prefer-ip-address: true
+#    ip-address: 116.196.91.220 #如果是在一个局域网内部，默认生成内网IP可直接访问，就不需要配置这个了
+  client:
+    service-url:
+      defaultZone: http://116.196.91.220:8687/eureka/
+
+spring:
+  application:
+    name: acs-cms-admin-server
+  cloud:
+    config:
+      username: user
+      password: 666
+      label: master
+      profile: dev
+      discovery:
+        enabled: true #必须要在Appplication启动类里面加上注解@EnableDiscoveryClient这个配置才能生效
+        service-id: config-server

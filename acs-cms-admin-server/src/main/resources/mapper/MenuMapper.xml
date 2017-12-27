@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.henede.admin.mapper.MenuMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.henede.admin.domain.Menu">
+		<id column="id" property="id" />
+		<result column="p_id" property="pId" />
+		<result column="res_id" property="resId" />
+		<result column="name" property="name" />
+		<result column="icon" property="icon" />
+		<result column="description" property="description" />
+		<result column="sort" property="sort" />
+		<result column="delete_flag" property="deleteFlag" />
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, p_id AS pId, res_id AS resId, name, icon, description, sort, delete_flag AS deleteFlag, create_time AS createTime, create_by AS createBy, update_time AS updateTime, update_by AS updateBy
+    </sql>
+
+	<sql id="selectMenuDtoSql">
+		SELECT
+		sme.id,
+		sme.`name` AS text,
+		sme.`name` AS translate,
+		sme.icon,
+		sr.url AS link,
+		CASE
+		WHEN sme.p_id IS NULL THEN
+		1
+		ELSE
+		0
+		END AS `group`,
+		group_concat(sro.`name`) AS acl
+		FROM
+		sys_menu sme
+		JOIN sys_role_menu srm ON sme.id = srm.menu_id
+		JOIN sys_role sro on sro.id = srm.role_id
+		LEFT JOIN sys_resource sr on sme.res_id = sr.id
+		where 1 = 1
+		<if test="pId == null">
+			and sme.p_id is null
+		</if>
+		<if test="pId != null">
+			and sme.p_id = #{pId}
+		</if>
+		<if test="name != null">
+			and sme.name like '%${name}%'
+		</if>
+		GROUP BY
+		sme.id,
+		sme.`name`,
+		sme.p_id
+		ORDER BY sme.sort
+	</sql>
+	<select id="selectAllMenus" parameterType="HashMap" resultType="com.henede.admin.dto.MenuDto">
+		<include refid="selectMenuDtoSql"></include>
+	</select>
+</mapper>

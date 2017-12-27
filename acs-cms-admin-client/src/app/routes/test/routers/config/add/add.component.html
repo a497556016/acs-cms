@@ -1,0 +1,66 @@
+<div class="content__title">
+    <h1>
+        添加路由
+    </h1>
+</div>
+<nz-card>
+    <form nz-form [nzLayout]="'horizontal'">
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>父路由</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="10" [nzHasFeedback]="'true'" [nzValidateStatus]="success">
+                <nz-select (ngModelChange)="selectPId($event)" [(ngModel)]="router.pId" name="router.pId" [nzPlaceHolder]="'请选择父路由'" [nzAllowClear]="true">
+                    <nz-option *ngFor="let item of routerData" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                </nz-select>
+
+            </div>
+
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label nz-form-item-required>名称</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="10" [nzHasFeedback]="'true'" [nzValidateStatus]="success">
+                <nz-input [(ngModel)]="router.name" name="router.name" [nzPlaceHolder]="'请输入名称'"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label nz-form-item-required>路径</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="10" [nzHasFeedback]="'true'" [nzValidateStatus]="success">
+                <nz-input [(ngModel)]="router.link" name="router.link" [nzPlaceHolder]="'请输入路径'"></nz-input>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>是否支点</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="10" [nzHasFeedback]="'true'" [nzValidateStatus]="success">
+                <label nz-checkbox (ngModelChange)="isLeafChange($event)" [(ngModel)]="router.leaf" name="router.leaf">
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label *ngIf="router.leaf" nz-form-item-required>绑定类别</label>
+                <label *ngIf="!router.leaf">绑定类别</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="10" [nzHasFeedback]="'true'" [nzValidateStatus]="success">
+                <nz-select [nzDisabled]="!router.leaf" [(ngModel)]="router.categoryId" name="router.categoryId" [nzPlaceHolder]="'请选择类别'"
+                    [nzAllowClear]="true">
+                    <nz-option *ngFor="let item of categoryData" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <div nz-form-item nz-row class="text-center">
+            <button nz-button (click)="submitRouter()" [nzType]="'primary'">提交</button>
+            <button nz-button (click)="router={}" [nzType]="'default'">重置</button>
+
+        </div>
+    </form>
+</nz-card>

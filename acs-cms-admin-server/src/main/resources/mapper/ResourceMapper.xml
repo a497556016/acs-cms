@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.henede.admin.mapper.ResourceMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.henede.admin.domain.Resource">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="url" property="url" />
+		<result column="description" property="description" />
+		<result column="delete_flag" property="deleteFlag" />
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, url, description, delete_flag AS deleteFlag, create_time AS createTime, create_by AS createBy, update_time AS updateTime, update_by AS updateBy
+    </sql>
+
+	<select id="selectResourceAuths" resultType="HashMap">
+		select group_concat(sr.url) as url,sro.name from sys_resource sr
+		join sys_auth_res sar on sr.id = sar.res_id
+		join sys_auth sa on sa.id = sar.auth_id
+		join sys_role_auth sra on sra.auth_id = sa.id
+		join sys_role sro on sro.id = sra.role_id
+		GROUP BY sro.name
+	</select>
+</mapper>
