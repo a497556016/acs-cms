@@ -45,11 +45,11 @@ public class UserController {
         Map<String, Object> re = Maps.newHashMap();
         re.put("code", 0);
         try {
-            User entity = new User();
-            entity.setUserName(username);
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            entity.setPassword(passwordEncoder.encode("123456"));
-            userService.insert(entity);
+//            User entity = new User();
+//            entity.setUserName(username);
+//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//            entity.setPassword(passwordEncoder.encode("123456"));
+//            userService.insert(entity);
 
             UserDetails userDetails = userManager.login(username, password);
 
